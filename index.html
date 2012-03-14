@@ -10,6 +10,10 @@
         <script type="text/javascript" src="showdown.js"></script>
         <script src="highlight.pack.js"></script>
         <script type="text/javascript">
+            function conv(mkdown){
+                var converter = new Showdown.converter();
+                return converter.makeHtml(data);
+            }
             function getParameter(name){ 
                 var search = document.location.search;
                 var pattern = new RegExp("[?&]"+name+"\=([^&]+)", "g");
@@ -140,7 +144,7 @@
            <span class="fl"> <a href="index.html?p=<%=post.name%>"><%=post.title%></a></span><span class="fr timestamp mt10"> &gt;发布时间&nbsp;<%=post.date%></span>
                <span class="slear"></span>
            </dt>
-           <dd><%=post.disp%></dd>
+           <dd><%=conv(post.disp)%></dd>
            <dd> <div class="fr commend">☆   评论(<a href="index.html?p=<%=post.name%>#disqus_thread"></a>)</div></dd>
        </dl>
        <%});%>
