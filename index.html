@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link href="a.css" type="text/css" rel="stylesheet" charset="utf-8" />
+        <link href="styles/dark.css" type="text/css" rel="stylesheet" charset="utf-8" />
+        <title>压力很大的BLOG</title>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+        <script type="text/javascript" src="underscore-min.js"></script>
+        <script type="text/javascript" src="showdown.js"></script>
+        <script src="highlight.pack.js"></script>
+        <script type="text/javascript">
+            function getParameter(name){ 
+                var search = document.location.search;
+                var pattern = new RegExp("[?&]"+name+"\=([^&]+)", "g");
+                var matcher = pattern.exec(search);
+                var items = null;
+                if(null != matcher){
+                    items = decodeURIComponent(matcher[1]);
+                }
+                return items;
+            }
+
+            function render_list(datas){
+                var template = _.template($("#post_list_template").html());
+                html=template(datas);
+                $("#list_container").html(html);
+            }
+
+            function show_post(name){
+                $("#list_container").html("");
+                $("#list_container").hide();
+                $("#loading").show();
+                $.get(
+                        "blogs/"+name,
+                        function(data){
+                            var converter = new Showdown.converter();
+                            var html = converter.makeHtml(data);
+                            $("#post-text").html(html);
+                            $("#post-content").show();
+                            $("#loading").hide();
+                            hljs.tabReplace = '    ';
+                            hljs.initHighlighting();
+                        }
+                );
+            }
+
+            function show_index(){
+                $("#loading").show();
+                $("#post-text").html("");
+                $("#post-content").hide();
+                $.getJSON(
+                        "list.json",
+                        function(data){
+                            $("#loading").hide();
+                            $("#list_container").show();
+                            render_list(data);
+                        }
+                    );
+            }
+
+            $(function(){
+                $("#show_home").hide();
+                $("#header").mousemove(function(){$("#show_home").show()}).mouseout(function(){$("#show_home").hide()});
+                var params=getParameter("p");
+                if(_.isNull(params)){
+                    show_index();
+                }else{
+                    show_post(params);
+                }
+             }
+            );
+        </script>
+    </head>
+    <body>
+        <div class="header"><a class="fl mt40 ml20" id="header" href="/">&gt;&gt;&gt;压力很大的BLOG</a> <img id="show_home" class="fl mt30" src="images/home.gif"/></div>
+        <div class="content">
+            <div id="side" class="fl side">
+                <img class="fl ml40" src="images/me1-1.jpg"/>
+                <div class="fl mt40 disp">
+                    <!-- 这里是我的自我介绍：开始 //-->
+                    80后，程序猿，所以压力很大。现就职于<a href="http://www.codoon.com">咕咚网</a>，一个绿色的、欢乐的运动社区。<br/>我的联系方式：<br/>superpowerlee<img src="images/at.jpeg"/>gmail.com<br/>
+                    <iframe width="190" height="400" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=190&height=400&fansRow=1&ptype=1&speed=0&skin=2&isTitle=0&noborder=0&isWeibo=1&isFans=1&uid=1468733835&verifier=1448dc03&dpc=1"></iframe>
+                    <!-- 这里是我的自我介绍：结束//-->
+                </div>
+            </div>
+            <div id="posts" class="posts ml200">
+                <div id="loading" class="loading" style="display:none;"> <img src="images/loading.gif"/> </div>
+                <div class="wrapper" id="list_container">
+                </div>
+                <div id="post-content" class="text">
+                    <div id="post-text"></div>
+                    <div class="fr">
+                        <!-- JiaThis Button BEGIN -->
+                        <div id="ckepop">
+                        <span class="jiathis_txt">分享到：</span>
+                        <a class="jiathis_button_tsina">新浪微博</a>
+                        <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+                        <a class="jiathis_counter_style"></a>
+                        </div>
+                        <script type="text/javascript" src="http://v2.jiathis.com/code/jia.js" charset="utf-8"></script>
+                        <!-- JiaThis Button END -->
+                    </div>
+                    <div class="clear"></div>
+                    <div id="disqus_thread"></div>
+                    <script type="text/javascript">
+                            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+                        var disqus_shortname = 'alexandersblognew'; // required: replace example with your forum shortname
+
+                            /* * * DON'T EDIT BELOW THIS LINE * * */
+                            (function() {
+                                     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                                             dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+                                                     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                                                         })();
+                                                     </script>
+                                                     <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                                                     <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+                </div>
+            </div>
+        </div>
+        <div class="main footer">版权申明:这个博客的所有文字版权如未经声明，均为李明（压力很大同志）所有。<br/>2012~?</div>
+        <script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'alexandersblognew'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+    </body>
+    <script id="post_list_template" type="text/template">
+        <%_.each(data,function(post){%>
+        <dl>
+           <dt class="h20">
+           <span class="fl"> <a href="index.html?p=<%=post.name%>"><%=post.title%></a></span><span class="fr timestamp mt10"> &gt;发布时间&nbsp;<%=post.date%></span>
+               <span class="slear"></span>
+           </dt>
+           <dd><%=post.disp%></dd>
+           <dd> <div class="fr commend">☆   评论(<a href="index.html?p=<%=post.name%>#disqus_thread"></a>)</div></dd>
+       </dl>
+       <%});%>
+    </script>
+</html>

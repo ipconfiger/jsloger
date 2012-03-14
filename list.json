@@ -1,0 +1,14 @@
+{"data":[
+    {
+        "name":"readme.txt",
+        "title":"Readme for the pure javascript blog system",
+        "disp":"This is blog system write in pure javascript and run at any static site space.",
+        "date":"2012/3/14 18:09:08"
+    },
+    {
+        "name":"markdown_samples.txt",
+        "title":"Markdown references...",
+        "disp":"Read the references from <a href='http://daringfireball.net/projects/markdown/'>http://daringfireball.net/</a>",
+        "date":"2012/3/14 18:10:33"
+    }
+]}

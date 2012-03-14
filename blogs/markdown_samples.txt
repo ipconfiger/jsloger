@@ -1,0 +1,8 @@
+Markdown references...
+============================
+
+* * *
+
+Read the references from [http://daringfireball.net/](http://daringfireball.net/projects/markdown/)
+
+This link save a lot of words.
